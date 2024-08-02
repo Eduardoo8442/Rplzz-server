@@ -25,23 +25,10 @@ class Register {
                 const saltRounds = 10;
                 const idUser = generateId();
                 const hashedPassword = await bcrypt.hash(password, saltRounds);
-                await await db.query('INSERT INTO Users (idUser, name, email, password, image) VALUES (?, ?, ?, ?, ?)', [Number(idUser), name, email, hashedPassword, '/images/profile.png']);
-               //apagar a variavel fri quando tudo estiver finalizado
-                const fri = [
-                    {
-                        name: "Lucas8442",
-                        id: '39232392839238',
-                        image: '/images/profile.png'
-                    },
-                    {
-                        name: "gustavao",
-                        id: '39232392839238',
-                        image: '/images/profile.png'
-                    }
-                ]
-                await db.query('INSERT INTO InfoUser (idUser, friends) VALUES (?, ?)', [Number(idUser), JSON.stringify(fri)]);
+                 await db.query('INSERT INTO Users (idUser, name, email, password, image) VALUES (?, ?, ?, ?, ?)', [Number(idUser), name, email, hashedPassword, '/images/profile.png']);
+                await db.query('INSERT INTO InfoUser (idUser, friends) VALUES (?, ?)', [Number(idUser), null]);
 
-                reply.status(201).send({ id: idUser });
+                reply.status(201).send({ id: idUser, name: name, email: email });
             }
 
         } catch (e) {
