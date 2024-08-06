@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import DataBase from "../../database";
-
+import SocketApp from "../../services/socketIO/socket.service";
 interface UserRequestBody {
     id: number;
     idFriend: number;
@@ -10,7 +10,7 @@ class ConfirmFriend {
     static async executeUseCase(request: FastifyRequest<{ Body: UserRequestBody }>, reply: FastifyReply): Promise<void> {
         try {
             const { id, idFriend } = request.body;
-
+            const io = new SocketApp().getInstance();
             if (id == null || idFriend == null) {
                 reply.status(400).send({ message: 'Faltando ID seu ou da pessoa' });
                 return;
@@ -67,7 +67,7 @@ class ConfirmFriend {
                 'UPDATE InfoUser SET friends = ? WHERE idUser = ?',
                 [JSON.stringify(updatedFriendListForFriend), idFriend]
             );
-
+            io.emit('sendFriendship', id);
             reply.status(200).send({ message: 'Amizade confirmada com sucesso.' });
 
         } catch (e) {
@@ -87,7 +87,8 @@ class ConfirmFriend {
             {
                 idUser: twoUser.idUser,
                 image: twoUser.image,
-                name: twoUser.name
+                name: twoUser.name,
+                notification: 0
             }
         ];
         return updatedFriendsList;

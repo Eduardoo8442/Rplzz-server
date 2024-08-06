@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import DataBase from "../../database";
-
+import SocketApp from "../../services/socketIO/socket.service";
 interface UserRequestBody {
     id: number;
     idInput: number;
@@ -10,6 +10,7 @@ class AddFriends {
     static async executeUseCase(request: FastifyRequest<{ Body: UserRequestBody }>, reply: FastifyReply): Promise<void> {
         try {
             const { id, idInput } = request.body;
+            const io = new SocketApp().getInstance();
             if (!id || !idInput) {
                 reply.status(400).send({ message: 'O ID seu e da pessoa é obrigatório.' });
                 return;
@@ -52,7 +53,7 @@ class AddFriends {
                 'UPDATE Users SET pending = ? WHERE idUser = ?',
                 [JSON.stringify(updatedPending), idInput]
             );
-
+            io.emit('sendFriendship', rows[0].idUser);
             reply.status(200).send({ message: "Pedido enviado" });
         } catch (e) {
             console.error('Erro interno:', e);

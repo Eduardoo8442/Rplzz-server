@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import DataBase from "../../database";
-
+import SocketApp from "../../services/socketIO/socket.service";
 interface UserRequestBody {
     id: number;
     idFriend: number;
@@ -10,7 +10,7 @@ class RecuseFriend {
     static async executeUseCase(request: FastifyRequest<{ Body: UserRequestBody }>, reply: FastifyReply): Promise<void> {
         try {
             const { id, idFriend } = request.body;
-
+            const io = new SocketApp().getInstance();
             if (id == null || idFriend == null) {
                 reply.status(400).send({ message: 'Faltando ID seu ou da pessoa' });
                 return;
@@ -50,7 +50,7 @@ class RecuseFriend {
          
 
             reply.status(200).send({ message: 'Amizade recusada com sucesso.' });
-
+            io.emit('sendFriendship', id);
         } catch (e) {
             console.error('Erro interno:', e);
             reply.status(500).send({ message: 'Erro interno do servidor.' });
