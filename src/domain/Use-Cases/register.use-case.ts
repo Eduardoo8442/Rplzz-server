@@ -28,7 +28,7 @@ class Register {
                  await db.query('INSERT INTO Users (idUser, name, email, password, image) VALUES (?, ?, ?, ?, ?)', [Number(idUser), name, email, hashedPassword, '/images/profile.png']);
                 await db.query('INSERT INTO InfoUser (idUser, friends) VALUES (?, ?)', [Number(idUser), null]);
 
-                reply.status(201).send({ id: idUser, name: name, email: email });
+                reply.status(201).send({ id: idUser, name: name, email: email, image: '/images/profile.png'});
             }
 
         } catch (e) {

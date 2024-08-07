@@ -32,7 +32,7 @@ class Login {
                 reply.status(401).send({ message: 'Email ou senha inválidos.' });
                 return;
             }
-            reply.send({ idUser: user.idUser, name: user.name, email: user.email });
+            reply.send({ idUser: user.idUser, name: user.name, email: user.email, image: user.image });
 
         } catch (e) {
             console.log(e);
