@@ -104,7 +104,8 @@ class SendMessage {
                 idFriend: account.idFriend,
                 image: account.image,
                 name: account.name,
-                message: account.message
+                message: account.message,
+                imageMessage: account.imageMessage
             }
         ];
         return updatedChatList;
