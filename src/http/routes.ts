@@ -9,6 +9,7 @@ import RecuseFriendsRoute from "./addfriends/recuseFriends.routes";
 import GetChatList from "./chat/getChatList.routes";
 import MulterRoute from "./upload/upload.routes";
 import UploadImageMessageRoute from "./upload/uploadImageMessage.routes";
+import ChangeEmailRoute from "./changeColums/changeEmail.routes";
 import { FastifyInstance } from "fastify";
 export default function routesApplication(instance: FastifyInstance): void {
     new MainRoute(instance).initConnection();
@@ -22,4 +23,5 @@ export default function routesApplication(instance: FastifyInstance): void {
     new GetChatList(instance).initConnection();
     new MulterRoute(instance).initConnection();
     new UploadImageMessageRoute(instance).initConnection();
+    new ChangeEmailRoute(instance).initConnection();
 }

@@ -28,7 +28,7 @@ class FriendsList {
             }
 
             const user = rows[0];
-            const friendsList: Friend[] = JSON.parse(user.friends);
+            const friendsList: Friend[] = JSON.parse(user.friends) || [];
 
             for (const friend of friendsList) {
                 const [friendRows]: any = await db.query('SELECT image FROM Users WHERE idUser = ?', [friend.idUser]);
