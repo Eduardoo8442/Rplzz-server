@@ -18,7 +18,7 @@ class SendMessage {
                 }
 
                 if (rowsFriend.length === 0) {
-                    console.log('id do amigo errado');
+                    console.log('id do amigo errado');      
                     return;
                 }
 
