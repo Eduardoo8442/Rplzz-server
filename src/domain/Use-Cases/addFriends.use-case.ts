@@ -41,12 +41,17 @@ class AddFriends {
             } catch (error) {
                 console.error('Erro ao parsear JSON:', error);
             }
+            
+            //barrar caso já tenha enviado pedido
+            const isAlreadyPending = updatedPending.some(pending => pending.idUser === id);
 
-            updatedPending.push({
-                idUser: id,
-                image: userMain.image,
-                name: userMain.name
-            });
+            if(!isAlreadyPending) {
+                updatedPending.push({
+                    idUser: id,
+                    image: userMain.image,
+                    name: userMain.name
+                });
+            }
 
  
             await db.query(
